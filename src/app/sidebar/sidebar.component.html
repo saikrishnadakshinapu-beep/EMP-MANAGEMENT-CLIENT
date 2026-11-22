@@ -1,0 +1,6 @@
+<aside class="sidebar" aria-label="Main navigation">
+  <button *ngFor="let item of items" (click)="navigate(item.route)" [ngClass]="{ active: isActive(item.route) }">
+    <span class="pi" [ngClass]="item.icon"></span>
+    <span>{{ item.label }}</span>
+  </button>
+</aside>

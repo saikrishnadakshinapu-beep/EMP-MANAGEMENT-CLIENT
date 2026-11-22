@@ -1,0 +1,33 @@
+
+.topbar {
+    display: flex;
+    height: 60px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px;
+    border-bottom: 1px solid #e9eaf2;
+    background: #fff;
+}
+.brandlogo {
+    display: block;
+    width: 185px;
+    height: 68px;
+    overflow: hidden;
+    flex: 0 0 auto;
+}
+.brandlogo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 50%;
+}
+.title{
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1f4e88;
+}
+.logout-button { padding: 8px 14px; border: 0; border-radius: 5px; color: #fff; background: #1f4e88; cursor: pointer; }
+@media (max-width: 480px) {
+    .brandlogo { width: 145px; height: 56px; }
+}

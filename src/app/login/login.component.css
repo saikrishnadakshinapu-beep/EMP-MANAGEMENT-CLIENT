@@ -1,0 +1,24 @@
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+.login {
+  box-sizing: border-box;
+  display: grid;
+  min-height: 100vh;
+  padding: 1rem;
+  place-items: center;
+  background: url('../../assets/login-bg.png') center / cover no-repeat;
+}
+
+.login form {
+  width: min(400px, 100%);
+}
+
+.login .p-card {
+  position: relative;
+  z-index: 1;
+  padding: 17px;
+  box-shadow: 0 8px 24px #1a64b9;
+}

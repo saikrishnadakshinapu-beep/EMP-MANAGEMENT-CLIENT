@@ -1,0 +1,36 @@
+
+
+<div class="login">
+  <form class="grid p-fluid" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <div class="col-12 sm:col-12 md:col-12">
+      <div class="p-card ">
+        <div class="p-card-header">
+          <h2 class=" m-2 mt-5 ml-5">Welcome To Emp Management</h2>
+        </div>
+        <div class="p-card-body">
+          <div class="grid p-fluid ">
+            <div class="col-12 sm:col-12 md:col-12 mb-1">
+              <span class="p-float-label">
+                <input type="text" pInputText class="p-inputtext-sm" id="Username" formControlName="username">
+                <label for="Username">Username</label> 
+              </span>
+            </div>
+            <div class="col-12 sm:col-12 md:col-12">
+              <span class="p-float-label">
+                <input type="password" pInputText class="p-inputtext-sm" id="password" autocomplete="off" formControlName="password">
+                <label for="password">Password</label>
+              </span>
+            </div>
+            <div class="col-12">
+              <button pButton type="submit" label="Login"></button>
+            </div>
+            <div class="col-12">
+              
+              <small>username: demo@example.com<br> password: Demo123!</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

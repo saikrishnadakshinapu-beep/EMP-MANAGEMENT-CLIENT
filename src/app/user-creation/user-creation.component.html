@@ -1,0 +1,92 @@
+<div class="user-table">
+        <p-table #dt1 [value]="employeeList" dataKey="id" [scrollable]="true" scrollHeight="flex" [paginator]="true" paginatorPosition="bottom" [rows]="25"
+            [showCurrentPageReport]="false"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [globalFilterFields]="globalSerchlist" [rowsPerPageOptions]="[25,50,100]"
+            styleClass="p-datatable-sm p-datatable-striped  p-datatable-gridlines resize-table">
+            <ng-template pTemplate="caption" *ngIf="pageReportReq(dt1)">
+                <div class="table-header">
+                    <div class="table-header-left">
+                        <span class="p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input #globalSearch pInputText type="text" (input)="dt1.filterGlobal(globalSearch.value, 'contains')" placeholder="Search..." />
+                        </span>
+                    </div>
+                    <div class="table-header-right">
+                        <!-- <button pButton type="button" label="Add Employee" icon="pi pi-plus" (click)="addEmployee()"></button> -->
+                    </div>
+                </div> 
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="min-width:120px; max-width:120px">
+                        Action
+                    </th>
+                    <th style="min-width:150px; max-width:150px">
+                        Employee ID
+                    </th>
+                    <th style="min-width:180px; max-width:180px;">
+                        Name
+                    </th>
+                    <th style="min-width:80px; max-width:80px">
+                        Age
+                    </th>
+                    <th style="min-width:220px; max-width:220px">
+                        Email
+                    </th>
+                    <th style="min-width:100px; max-width:100px">
+                        Status
+                    </th>
+                    <th style="min-width:200px;">
+                        Job Title
+                    </th>
+                    <th style="min-width:140px; max-width:140px">
+                        Date Joined
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-pat>
+                <tr>
+                    <td style="min-width:120px; max-width:120px" class="td-align">
+                        <button pButton type="button" icon="pi pi-pencil" class="p-button-text p-button-sm"
+                            aria-label="Edit employee"></button>
+                        <button pButton type="button" icon="pi pi-trash" class="p-button-text p-button-sm p-button-danger"
+                            aria-label="Delete employee"></button>
+                    </td>
+
+                    <td style="min-width:150px; max-width:150px" class="td-align">
+                        {{pat.employeeId}}
+                    </td>
+
+                    <td style="min-width:180px; max-width:180px;" class="td-align">
+                        {{pat.dispName}}
+                    </td>
+
+                    <td style="min-width:80px; max-width:80px;" class="td-align">
+                        {{pat.age}}
+                    </td>
+
+                    <td style="min-width:220px; max-width:220px" class="td-align">
+                        {{pat.email}}
+                    </td>
+
+                    <td style="min-width:100px; max-width:100px" class="td-align">
+                        <p-tag [value]="pat.isActive ? 'Active' : 'Inactive'"
+                            [severity]="pat.isActive ? 'success' : 'danger'"></p-tag>
+                    </td>
+
+                    <td style="min-width:200px;" class="td-align">
+                        {{pat.jobTitle}}
+                    </td>
+
+                    <td style="min-width:140px; max-width:140px" class="td-align">
+                        {{pat.dateJoined | date:'mediumDate'}}
+                    </td>
+                </tr>
+            </ng-template> 
+             <ng-template pTemplate="paginatorleft" let-state>
+                    Showing <b>{{page.first}}</b> to <b>{{page.last}}</b> of <b>{{state.totalRecords}}</b>
+                    Entries
+                </ng-template>
+        </p-table>
+    </div>

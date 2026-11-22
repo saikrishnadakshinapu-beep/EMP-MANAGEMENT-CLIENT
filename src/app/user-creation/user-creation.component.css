@@ -1,0 +1,36 @@
+:host {
+  display: flex;
+  min-width: 0;
+  min-height: 0;
+  flex: 1;
+}
+
+.user-table {
+  display: flex;
+  min-width: 0;
+  min-height: 0;
+  flex: 1;
+  flex-direction: column;
+}
+
+:host ::ng-deep p-table {
+  display: flex;
+  min-width: 0;
+  min-height: 0;
+  flex: 1;
+}
+
+:host ::ng-deep .resize-table {
+  display: flex;
+  height: 100%;
+  min-height: 0;
+  flex: 1;
+  flex-direction: column;
+}
+
+:host ::ng-deep .resize-table>.p-datatable-wrapper {
+  display: flex;
+  height: 100%;
+  min-height: 0;
+  flex: 1;
+}

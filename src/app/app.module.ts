@@ -1,18 +1,43 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-
+import { BrowserModule, Title } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { ReactiveFormsModule } from '@angular/forms';
+ import { MessageService } from 'primeng/api';
+ import { DialogService } from 'primeng/dynamicdialog';
+import { CommonSharedModule } from './common-shared/common-shared.module';
 import { AppComponent } from './app.component';
+import { LoginComponent } from './login/login.component';
+import { MainLayoutComponent } from './main-layout/main-layout.component';
+import { SamplePageComponent } from './sample-page/sample-page.component';
+import { UserCreationComponent } from './user-creation/user-creation.component';
+import { HeaderComponent } from './header/header.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    LoginComponent,
+    MainLayoutComponent,
+    SamplePageComponent,
+    UserCreationComponent,
+    HeaderComponent,
+    SidebarComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+   CommonSharedModule
   ],
-  providers: [],
+ providers: [MessageService, DialogService, Title,
+    // { provide: HTTP_INTERCEPTORS, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

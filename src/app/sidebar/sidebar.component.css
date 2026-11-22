@@ -1,0 +1,58 @@
+:host {
+    display: block;
+    box-sizing: border-box;
+    width: 15rem;
+    flex: 0 0 15rem;
+    align-self: stretch;
+    border-right: 1px solid #e9eaf2;
+    background: #fff;
+}
+
+.sidebar {
+    box-sizing: border-box;
+    min-height: 100%;
+    padding: 1.5rem 1rem;
+}
+
+.heading {
+    margin: 0 0 .85rem .7rem;
+    color: #9697a7;
+    font-size: .65rem;
+    letter-spacing: .12em;
+}
+
+button {
+    display: flex;
+    width: 100%;
+    min-height: 2.75rem;
+    align-items: center;
+    gap: .7rem;
+    padding: 0 .75rem;
+    border: 0;
+    border-radius: .6rem;
+    color: #5d5f73;
+    background: transparent;
+    cursor: pointer;
+    text-align: left;
+}
+
+button.active {
+    color: #0b5fce;
+    background: #dcebff;
+}
+
+@media (max-width: 600px) {
+    :host {
+        width: 4.25rem;
+        flex-basis: 4.25rem;
+    }
+
+    .sidebar {
+        padding: 1rem .5rem;
+    }
+
+    .heading,
+    button span:not(.pi) {
+        display: none;
+    }
+}
