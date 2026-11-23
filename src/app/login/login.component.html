@@ -14,12 +14,21 @@
                 <input type="text" pInputText class="p-inputtext-sm" id="Username" formControlName="username">
                 <label for="Username">Username</label> 
               </span>
+              <small class="p-error" *ngIf="loginForm.controls.username.touched && loginForm.controls.username.invalid">
+                Username or email is required.
+              </small>
             </div>
             <div class="col-12 sm:col-12 md:col-12">
               <span class="p-float-label">
                 <input type="password" pInputText class="p-inputtext-sm" id="password" autocomplete="off" formControlName="password">
                 <label for="password">Password</label>
               </span>
+              <small class="p-error" *ngIf="loginForm.controls.password.touched && loginForm.controls.password.invalid">
+                Password must be at least 6 characters.
+              </small>
+            </div>
+            <div class="col-12" *ngIf="loginError">
+              <small class="p-error">{{loginError}}</small>
             </div>
             <div class="col-12">
               <button pButton type="submit" label="Login"></button>
