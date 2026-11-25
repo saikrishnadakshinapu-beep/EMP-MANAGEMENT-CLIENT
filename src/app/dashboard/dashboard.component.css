@@ -1,11 +1,10 @@
 .card-body{
     margin: 1rem;
-    border: 1px solid #c3dbfa;
+    border: 1px solid #d1e5fe;
     color: #696969;
-    background-color: #eef6ff;
+    background-color: #f2f7fd;
     padding: 1rem;
     border-radius: 8px;
-    border-bottom: 6px solid #3f8cd7;
-    box-shadow: 0 8px 24px #cfdce8;
-    margin: 0px 20px 30px 20px !important;
+    border-bottom:6px solid #017ce1;;
+    box-shadow: 0 8px 24px #cfdce8; 
 }
