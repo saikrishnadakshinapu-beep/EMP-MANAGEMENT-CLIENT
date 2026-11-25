@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://localhost:3000/api'
+  apiUrl:'https://emp-backend-l4ly.onrender.com/api'
 };
