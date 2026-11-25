@@ -17,8 +17,8 @@ export class SidebarComponent {
   constructor(private readonly router: Router) {}
 
   readonly items: SidebarItem[] = [
-    { label: 'Create User', route: '/users', icon: 'pi pi-user', exact: true },
     { label: 'Dashboard', route: '/users/dashboard', icon: 'pi pi-home' },
+    { label: 'Create User', route: '/users', icon: 'pi pi-user', exact: true },
     { label: 'Employee List', route: '/users/employees', icon: 'pi pi-users' },
     { label: 'Departments', route: '/users/departments', icon: 'pi pi-th-large' }
   ];

@@ -1,6 +1,8 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -8,59 +10,56 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
+  isSubmitting = false;
+  loginError = '';
+
   loginForm = new FormGroup({
-    username: new FormControl('', {
+    email: new FormControl('', {
       nonNullable: true,
-      validators: [Validators.required]
+      validators: [Validators.required, Validators.email]
     }),
     password: new FormControl('', {
       nonNullable: true,
       validators: [Validators.required, Validators.minLength(6)]
     })
   });
-  loginError = '';
 
-  constructor(private readonly router: Router) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly router: Router
+  ) {}
 
   onSubmit(): void {
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
-      this.loginError = 'Enter a valid username/email and a password of at least 6 characters.';
       return;
     }
 
-    const credentials = this.loginForm.getRawValue();
-    const username = credentials.username.trim().toLowerCase();
-    const password = credentials.password;
-
-    const isDemoLogin = username === 'demo@example.com' && password === 'Demo123!';
-    const employees = this.getStoredEmployees();
-    const employee = employees.find(item =>
-      item.isActive &&
-      (item.username?.toLowerCase() === username || item.email?.toLowerCase() === username) &&
-      item.password === password
-    );
-
-    if (!isDemoLogin && !employee) {
-      this.loginError = 'Invalid username or password.';
-      return;
-    }
-
+    const { email, password } = this.loginForm.getRawValue();
+    this.isSubmitting = true;
     this.loginError = '';
-    void this.router.navigate(['/users']);
+    this.authService.login(email.trim(), password).subscribe({
+      next: () => this.finishAuthentication(),
+      error: error => this.handleRequestError(error)
+    });
   }
 
-  private getStoredEmployees(): Array<{
-    username?: string;
-    email?: string;
-    password?: string;
-    isActive?: boolean;
-  }> {
-    try {
-      const storedEmployees = localStorage.getItem('employees');
-      return storedEmployees ? JSON.parse(storedEmployees) : [];
-    } catch {
-      return [];
+  private finishAuthentication(): void {
+    this.isSubmitting = false;
+    void this.router.navigate(['/users/dashboard']);
+  }
+
+  private handleRequestError(error: unknown): void {
+    this.isSubmitting = false;
+    if (error instanceof HttpErrorResponse) {
+      const message = error.error && typeof error.error.message === 'string'
+        ? error.error.message
+        : '';
+      this.loginError = message || (error.status === 0
+        ? 'Unable to reach the employee API. Check that the backend is running.'
+        : 'The request could not be completed.');
+      return;
     }
+    this.loginError = 'The request could not be completed.';
   }
 }

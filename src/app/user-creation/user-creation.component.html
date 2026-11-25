@@ -1,204 +1,168 @@
 <div class="user-table">
-        <p-table #dt1 [value]="employeeList" dataKey="id" [scrollable]="true" scrollHeight="flex" [paginator]="true" paginatorPosition="bottom" [rows]="25"
-            [showCurrentPageReport]="false"
-            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-            [globalFilterFields]="globalSerchlist" [rowsPerPageOptions]="[25,50,100]"
-            styleClass="p-datatable-sm p-datatable-striped  p-datatable-gridlines resize-table">
-            <ng-template pTemplate="caption" *ngIf="pageReportReq(dt1)">
-                <div class="table-header flex justify-content-between  align-items-center">
-                    <div class="table-header-left">
-                        <span class="p-input-icon-left">
-                            <i class="pi pi-search"></i>
-                            <input #globalSearch pInputText type="text" (input)="dt1.filterGlobal(globalSearch.value, 'contains')" placeholder="Search..." />
-                        </span>
-                    </div>
-                    <div class="table-header-right">
-                        <button pButton type="button" label="Add Employee" icon="pi pi-plus" (click)="addEmployee()"></button>
-                    </div>
-                </div> 
-            </ng-template>
-            <ng-template pTemplate="header">
-                <tr>
-                    <th style="min-width:120px; max-width:120px">
-                        Action
-                    </th>
-                    <th style="min-width:150px; max-width:150px">
-                        Employee ID
-                    </th>
-                    <th style="min-width:180px; max-width:180px;">
-                        Name
-                    </th>
-                    <th style="min-width:80px; max-width:80px">
-                        Age
-                    </th>
-                    <th style="min-width:220px; max-width:220px">
-                        Email
-                    </th>
-                    <th style="min-width:120px; max-width:120px">
-                        Gender
-                    </th>
-                    <th style="min-width:100px; max-width:100px">
-                        Status
-                    </th>
-                    <th style="min-width:180px; max-width:180px">
-                        Department
-                    </th>
-                    <th style="min-width:200px;">
-                        Job Title
-                    </th>
-                    <th style="min-width:140px; max-width:140px">
-                        Date Joined
-                    </th>
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-pat>
-                <tr>
-                    <td style="min-width:120px; max-width:120px" class="td-align">
-                        <button pButton type="button" icon="pi pi-pencil" class="p-button-text p-button-sm"
-                            aria-label="Edit employee" (click)="editEmployee(pat)"></button>
-                        <button pButton type="button" icon="pi pi-trash" class="p-button-text p-button-sm p-button-danger"
-                            aria-label="Delete employee" (click)="deleteEmployee(pat)"></button>
-                    </td>
+    <!-- <div class="api-error" *ngIf="errorMessage">{{errorMessage}}</div> -->
+    <p-table #dt1 [value]="employeeList" dataKey="_id" [lazy]="true" (onLazyLoad)="loadEmployees($event)"
+        [totalRecords]="totalEmployees" [loading]="isLoading" [scrollable]="true" scrollHeight="flex" [paginator]="true"
+        paginatorPosition="bottom" [rows]="25" [showCurrentPageReport]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} employees"
+        [rowsPerPageOptions]="[10,25,50,100]"
+        styleClass="p-datatable-sm p-datatable-striped p-datatable-gridlines resize-table">
+        <ng-template pTemplate="caption">
+            <div class="table-header flex justify-content-between align-items-center">
+                <div class="table-header-left">
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input #globalSearch pInputText type="text" placeholder="Search name or email..."
+                            (input)="searchEmployees(globalSearch.value, dt1)" />
+                    </span>
+                </div>
+                <div class="table-header-right">
+                    <button pButton type="button" label="Add Employee"  
+                        (click)="addEmployee()"></button>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="min-width:50px; max-width: 50px;">S.No</th>
+                <th style="min-width:200px;">Name</th>
+                <th style="min-width:200px; max-width: 200px;">Email</th>
+                <th style="min-width:150px; max-width: 150px;">Phone</th>
+                <th style="min-width:150px; max-width: 150px;">Department</th>
+                <th style="min-width:150px; max-width: 150px;">Designation</th>
+                <th style="min-width:150px; max-width: 150px;">Salary</th>
+                <th style="min-width:150px; max-width: 150px;">Joining Date</th>
+                <th style="min-width:120px; max-width: 120px;">Actions</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-employee let-rowIndex="rowIndex">
+            <tr>
+                <td style="min-width:50px; max-width: 50px;" class="td-align">{{rowIndex +1}}</td>
+                <td style="min-width:200px;" class="td-align">{{employee.name | titlecase}}</td>
+                <td style="min-width: 200px; max-width: 200px; white-space: nowrap;overflow: hidden; text-overflow: ellipsis; "
+                    class="td-align" [pTooltip]="employee.email" tooltipPosition="bottom">{{employee.email}}</td>
+                <td style="min-width:150px; max-width: 150px;" class="td-align">{{employee.phone || '-'}}</td>
+                <td style="min-width:150px; max-width: 150px;" class="td-align">{{employee.department || '-'}}</td>
+                <td style="min-width:150px; max-width: 150px;" class="td-align">{{employee.designation || '-'}}</td>
+                <td style="min-width:150px; max-width: 150px;" class="td-align">{{employee.salary != null ?
+                    (employee.salary | number:'1.0-2') : '-'}}</td>
+                <td style="min-width:150px; max-width: 150px;" class="td-align">{{employee.joiningDate |
+                    date:'mediumDate'}}</td>
+                <td style="min-width:120px; max-width: 120px;" class="td-align">
+                    <button pButton type="button" icon="pi pi-pencil" class="p-button-rounded p-button-text p-button-sm"
+                        pTooltip="Edit employee" tooltipPosition="top" (click)="editEmployee(employee)"
+                        [disabled]="isDeletingId === employee._id"></button>
+                    <button pButton type="button" icon="pi pi-trash"
+                        class="p-button-rounded p-button-text p-button-danger p-button-sm"
+                        pTooltip="Delete employee" tooltipPosition="top" (click)="deleteEmployee(employee)"
+                        [disabled]="isDeletingId === employee._id"></button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="9">{{searchTerm ? 'No matching employees found.' : 'No employees found.'}}</td>
+            </tr>
+        </ng-template>
+    </p-table>
 
-                    <td style="min-width:150px; max-width:150px" class="td-align">
-                        {{pat.employeeId}}
-                    </td>
-
-                    <td style="min-width:180px; max-width:180px;" class="td-align">
-                        {{pat.dispName}}
-                    </td>
-
-                    <td style="min-width:80px; max-width:80px;" class="td-align">
-                        {{pat.age}}
-                    </td>
-
-                    <td style="min-width:220px; max-width:220px" class="td-align">
-                        {{pat.email}}
-                    </td>
-
-                    <td style="min-width:120px; max-width:120px" class="td-align">
-                        {{pat.gender}}
-                    </td>
-
-                    <td style="min-width:100px; max-width:100px" class="td-align">
-                        <p-tag [value]="pat.isActive ? 'Active' : 'Inactive'"
-                            [severity]="pat.isActive ? 'success' : 'danger'"></p-tag>
-                    </td>
-
-                    <td style="min-width:180px; max-width:180px" class="td-align">
-                        {{pat.department}}
-                    </td>
-
-                    <td style="min-width:200px;" class="td-align">
-                        {{pat.jobTitle}}
-                    </td>
-
-                    <td style="min-width:140px; max-width:140px" class="td-align">
-                        {{pat.dateJoined | date:'mediumDate'}}
-                    </td>
-                </tr>
-            </ng-template> 
-             <ng-template pTemplate="paginatorleft" let-state>
-                    Showing <b>{{page.first}}</b> to <b>{{page.last}}</b> of <b>{{state.totalRecords}}</b>
-                    Entries
-                </ng-template>
-        </p-table>
-
-        <p-dialog
-            [(visible)]="employeeDialogVisible"
-            [modal]="true"
-            [style]="{width: '520px'}"
-            [breakpoints]="{'960px': '90vw'}"
-            [contentStyle]="{'max-height':'70vh','overflow-y':'auto','overflow-x':'hidden'}"
-            [header]="editingEmployeeId === null ? 'Add Emp Details' : 'Edit Employee'"
-        >
-            <form [formGroup]="employeeForm" (ngSubmit)="saveEmployee()" class="employee-form">
-                <div class="form-grid">
-                    <div class="form-field pt-4">
-                        <span class="p-float-label">
-                            <input id="employee-name" type="text" pInputText class="p-inputtext-sm" formControlName="name" />
-                            <label for="employee-name">Name <span class="required-mark">*</span></label>
-                        </span>
-                        <small class="error" *ngIf="employeeForm.controls.name.touched && employeeForm.controls.name.invalid">
-                            Name is required.
-                        </small>
-                    </div>
-
-                    <div class="form-field pt-4">
-                        <span class="p-float-label">
-                            <p-inputNumber id="employee-age" formControlName="age" [min]="18" [max]="100" [showButtons]="true"></p-inputNumber>
-                            <label for="employee-age">Age <span class="required-mark">*</span></label>
-                        </span>
-                        <small class="error" *ngIf="employeeForm.controls.age.touched && employeeForm.controls.age.invalid">
-                            Enter an age between 18 and 100.
-                        </small>
-                    </div>
-
-                    <div class="form-field">
-                        <span class="p-float-label">
-                            <input id="employee-username" type="text" pInputText class="p-inputtext-sm" formControlName="username" />
-                            <label for="employee-username">Username <span class="required-mark">*</span></label>
-                        </span>
-                        <small class="error" *ngIf="employeeForm.controls.username.touched && employeeForm.controls.username.invalid">
-                            Username is required.
-                        </small>
-                    </div>
-
-                    <div class="form-field">
-                        <span class="p-float-label">
-                            <input id="employee-password" type="password" pInputText class="p-inputtext-sm" autocomplete="off" formControlName="password" />
-                            <label for="employee-password">Password <span class="required-mark">*</span></label>
-                        </span>
-                        <small class="error" *ngIf="employeeForm.controls.password.touched && employeeForm.controls.password.invalid">
-                            Password must be at least 6 characters.
-                        </small>
-                    </div>
-
-                    <div class="form-field">
-                        <span class="p-float-label">
-                            <p-dropdown id="employee-gender" appendTo="body" [options]="genderOptions" formControlName="gender"></p-dropdown>
-                            <label for="employee-gender">Gender <span class="required-mark">*</span></label>
-                        </span>
-                        <small class="error" *ngIf="employeeForm.controls.gender.touched && employeeForm.controls.gender.invalid">
-                            Gender is required.
-                        </small>
-                    </div>
-
-                    <div class="form-field">
-                        <span class="p-float-label">
-                            <input id="employee-email" type="email" pInputText class="p-inputtext-sm" formControlName="email" />
-                            <label for="employee-email">Email <span class="required-mark">*</span></label>
-                        </span>
-                        <small class="error" *ngIf="employeeForm.controls.email.touched && employeeForm.controls.email.invalid">
-                            Enter a valid email address.
-                        </small>
-                    </div>
-
-                    <div class="form-field">
-                        <span class="p-float-label">
-                            <p-dropdown id="employee-department"  appendTo="body" [options]="departmentOptions" formControlName="department"></p-dropdown>
-                            <label for="employee-department">Department <span class="required-mark">*</span></label>
-                        </span>
-                        <small class="error" *ngIf="employeeForm.controls.department.touched && employeeForm.controls.department.invalid">
-                            Department is required.
-                        </small>
-                    </div>
-
-                    <div class="form-field">
-                        <span class="p-float-label">
-                            <input id="employee-job-title" type="text" pInputText class="p-inputtext-sm" formControlName="jobTitle" />
-                            <label for="employee-job-title">Job Title <span class="required-mark">*</span></label>
-                        </span>
-                        <small class="error" *ngIf="employeeForm.controls.jobTitle.touched && employeeForm.controls.jobTitle.invalid">
-                            Job title is required.
-                        </small>
-                    </div>
+    <p-dialog [(visible)]="employeeDialogVisible" [modal]="true" [style]="{width: '600px'}"
+        [breakpoints]="{'960px': '90vw'}"
+        [contentStyle]="{'max-height':'70vh','overflow-y':'auto','overflow-x':'hidden'}"
+        [header]="editingEmployeeId ? 'Edit Employee' : 'Add Employee'">
+        <form [formGroup]="employeeForm" (ngSubmit)="saveEmployee()" class="employee-form">
+            <div class="form-grid">
+                <div class="form-field">
+                    <span class="p-float-label" [class.has-value]="employeeForm.controls.name.value">
+                        <input id="employee-name" type="text" pInputText class="p-inputtext-sm employee-control"
+                            formControlName="name" />
+                        <label for="employee-name">Name <span class="required-mark">*</span></label>
+                    </span>
+                    <small class="error"
+                        *ngIf="employeeForm.controls.name.touched && employeeForm.controls.name.invalid">Name is
+                        required.</small>
                 </div>
 
-                <div class="dialog-actions">
-                    <button pButton type="button" label="Cancel" class="p-button-text" (click)="employeeDialogVisible = false"></button>
-                    <button pButton type="submit" [label]="editingEmployeeId === null ? 'Add Employee' : 'Save Changes'" icon="pi pi-check"></button>
+                <div class="form-field">
+                    <span class="p-float-label" [class.has-value]="employeeForm.controls.email.value">
+                        <input id="employee-email" type="email" pInputText class="p-inputtext-sm employee-control"
+                            formControlName="email" />
+                        <label for="employee-email">Email <span class="required-mark">*</span></label>
+                    </span>
+                    <small class="error"
+                        *ngIf="employeeForm.controls.email.touched && employeeForm.controls.email.invalid">Enter a valid
+                        email address.</small>
                 </div>
-            </form>
-        </p-dialog>
-    </div>
+
+                <div class="form-field">
+                    <span class="p-float-label" [class.has-value]="employeeForm.controls.password.value">
+                        <p-password inputId="employee-password" formControlName="password" [toggleMask]="true"
+                            [feedback]="false" autocomplete="new-password"
+                            styleClass="password-control employee-control"
+                            inputStyleClass="p-inputtext-sm password-control-input"></p-password>
+                        <label for="employee-password">Password
+                            <span class="required-mark" *ngIf="!editingEmployeeId">*</span>
+                        </label>
+                    </span>
+                    <small class="error"
+                        *ngIf="employeeForm.controls.password.touched && employeeForm.controls.password.invalid">
+                        {{editingEmployeeId ? 'Password must be at least 6 characters if changed.' : 'Password must be at least 6 characters.'}}
+                    </small>
+                </div>
+
+                <div class="form-field">
+                    <span class="p-float-label" [class.has-value]="employeeForm.controls.phone.value">
+                        <input id="employee-phone" type="tel" pInputText class="p-inputtext-sm employee-control"
+                            formControlName="phone" inputmode="numeric" maxlength="10" pattern="[0-9]*"
+                            (input)="limitPhoneNumber($event)" />
+                        <label for="employee-phone">Phone</label>
+                    </span>
+                    <small class="error"
+                        *ngIf="employeeForm.controls.phone.touched && employeeForm.controls.phone.invalid">
+                        Enter a 10-digit phone number.
+                    </small>
+                </div>
+
+                <div class="form-field">
+                    <span class="p-float-label" [class.has-value]="employeeForm.controls.designation.value">
+                        <input id="employee-designation" type="text" pInputText
+                            class="p-inputtext-sm employee-control" formControlName="designation" />
+                        <label for="employee-designation">Designation</label>
+                    </span>
+                </div>
+
+                <div class="form-field">
+                    <span class="p-float-label" [class.has-value]="employeeForm.controls.department.value">
+                        <p-dropdown inputId="employee-department" appendTo="body" [options]="departmentOptions"
+                            formControlName="department" styleClass="employee-control"></p-dropdown>
+                        <label for="employee-department">Department</label>
+                    </span>
+                </div>
+
+                <div class="form-field">
+                    <span class="p-float-label" [class.has-value]="employeeForm.controls.salary.value !== null">
+                        <p-inputNumber inputId="employee-salary" formControlName="salary" [min]="0"
+                            [minFractionDigits]="0" [maxFractionDigits]="2" styleClass="employee-control"
+                            inputStyleClass="p-inputtext-sm employee-control-input"></p-inputNumber>
+                        <label for="employee-salary">Salary</label>
+                    </span>
+                </div>
+
+                <div class="form-field">
+                    <span class="p-float-label date-float-label">
+                        <input id="employee-joining-date" type="date" pInputText
+                            class="p-inputtext-sm employee-control" formControlName="joiningDate" />
+                        <label for="employee-joining-date">Joining Date</label>
+                    </span>
+                </div>
+            </div>
+
+            <div class="api-error dialog-error" *ngIf="dialogError">{{dialogError}}</div>
+            <div class="dialog-actions">
+                <button pButton type="button" label="Cancel" class="p-button-text" [disabled]="isSaving"
+                    (click)="employeeDialogVisible = false"></button>
+                <button pButton type="submit" [label]="editingEmployeeId ? 'Update Employee' : 'Add Employee'"
+                     [disabled]="isSaving"></button>
+            </div>
+        </form>
+    </p-dialog>
+</div>

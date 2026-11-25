@@ -9,7 +9,18 @@
   min-height: 100vh;
   padding: 1rem;
   place-items: center;
-  background: url('../../assets/login-bg.png') center / cover no-repeat;
+  background: linear-gradient(to right, #0040ff, #0000ff);
+  background: linear-gradient(135deg, #3b9cf2, #b0d7fe, #d5eafd);
+}
+
+.login-panel {
+  display: grid;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+  padding: 2px;
+  background: url('../../assets/login-bg.jpeg');
 }
 
 .login form {
@@ -21,4 +32,23 @@
   z-index: 1;
   padding: 17px;
   box-shadow: 0 8px 24px #1a64b9;
+}
+
+.demo-credentials {
+  color: #5d6470;
+  line-height: 1.5;
+}
+
+.demo-credentials span {
+  font-size: 0.8rem;
+}
+
+:host ::ng-deep .login-password {
+  display: flex;
+  width: 100%;
+}
+
+:host ::ng-deep .login-password-input {
+  box-sizing: border-box;
+  width: 100%;
 }

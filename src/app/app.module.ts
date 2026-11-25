@@ -15,6 +15,8 @@ import { UserCreationComponent } from './user-creation/user-creation.component';
 import { HeaderComponent } from './header/header.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { FooterComponent } from './footer/footer.component';
+import { AuthTokenInterceptor } from './services/auth-token.interceptor';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,8 @@ import { FooterComponent } from './footer/footer.component';
     UserCreationComponent,
     HeaderComponent,
     SidebarComponent,
-    FooterComponent
+    FooterComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
@@ -35,8 +38,11 @@ import { FooterComponent } from './footer/footer.component';
     ReactiveFormsModule,
    CommonSharedModule
   ],
- providers: [MessageService, DialogService, Title,
-    // { provide: HTTP_INTERCEPTORS, multi: true }
+ providers: [
+    MessageService,
+    DialogService,
+    Title,
+    { provide: HTTP_INTERCEPTORS, useClass: AuthTokenInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })
