@@ -1,5 +1,13 @@
 <aside class="sidebar" aria-label="Main navigation">
-  <button *ngFor="let item of items" (click)="navigate(item.route)" [ngClass]="{ active: isActive(item.route) }">
+ <div class="form-grid m-2" >
+  <div class="form-field " > 
+      <input id="employee-designation" placeholder="Search..." type="text" pInputText class="p-inputtext-sm employee-control"
+        [(ngModel)]="searchTerm"  (ngModelChange)="onSearchChange()" autocomplete="off" /> 
+    
+  </div> 
+  </div>
+  <button *ngFor="let item of filteredItems" (click)="navigate(item.route)"
+    [ngClass]="{ active: isActive(item.route) }">
     <span class="pi" [ngClass]="item.icon"></span>
     <span>{{ item.label }}</span>
   </button>

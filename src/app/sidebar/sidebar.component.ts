@@ -15,7 +15,13 @@ interface SidebarItem {
 })
 export class SidebarComponent {
   constructor(private readonly router: Router) {}
-
+searchTerm:any = '';
+filteredItems:any =[
+    { label: 'Dashboard', route: '/users/dashboard', icon: 'pi pi-home' },
+    { label: 'Create User', route: '/users', icon: 'pi pi-user', exact: true },
+    { label: 'Employee List', route: '/users/employees', icon: 'pi pi-users' },
+    { label: 'Departments', route: '/users/departments', icon: 'pi pi-th-large' }
+  ];
   readonly items: SidebarItem[] = [
     { label: 'Dashboard', route: '/users/dashboard', icon: 'pi pi-home' },
     { label: 'Create User', route: '/users', icon: 'pi pi-user', exact: true },
@@ -25,6 +31,14 @@ export class SidebarComponent {
 
   navigate(route: string) {
     void this.router.navigate([route]);
+  }
+  onSearchChange() {
+    this.filteredItems = this.items.filter(item =>
+      item.label.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
+    // if (filteredItems.length > 0) {
+    //   this.navigate(filteredItems[0].route);
+    // }
   }
 
   isActive(route: string) {
