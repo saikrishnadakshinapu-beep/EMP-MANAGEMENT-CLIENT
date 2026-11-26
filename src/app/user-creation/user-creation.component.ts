@@ -39,7 +39,7 @@ export class UserCreationComponent {
     }),
     department: new FormControl('', { nonNullable: true }),
     designation: new FormControl('', { nonNullable: true }),
-    salary: new FormControl<number | null>(null, { validators: [Validators.min(0)] }),
+    salary: new FormControl<any | null>(null, { nonNullable: true}),
     joiningDate: new FormControl('', { nonNullable: true })
   });
 
@@ -100,7 +100,7 @@ export class UserCreationComponent {
     this.employeeForm.reset({
       name: employee.name,
       email: employee.email,
-      password: employee.password,
+      password: employee.password || '',
       phone: employee.phone || '',
       department: employee.department || '',
       designation: employee.designation || '',
@@ -148,7 +148,7 @@ export class UserCreationComponent {
       phone: value.phone.trim() || undefined,
       department: value.department || undefined,
       designation: value.designation.trim() || undefined,
-      salary: value.salary ?? undefined,
+      salary: Number(value.salary) ?? undefined,
       joiningDate: value.joiningDate || undefined
     };
 

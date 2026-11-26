@@ -9,7 +9,7 @@
   min-height: 100vh;
   padding: 1rem;
   place-items: center;
-  background: linear-gradient(to right, #0040ff, #0000ff);
+  /* background: linear-gradient(to right, #0040ff, #0000ff); */
   background: linear-gradient(135deg, #3b9cf2, #b0d7fe, #d5eafd);
 }
 

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { finalize, tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 
 export interface AuthResponse {
@@ -13,6 +14,15 @@ export interface AuthResponse {
   };
 }
 
+export interface AuthSession {
+  id: string;
+  userName: string;
+  ipAddress?: string;
+  userAgent?: string;
+  createdAt: string;
+  expiresAt: string;
+}
+
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private readonly tokenStorageKey = 'employee-api-token';
@@ -23,6 +33,16 @@ export class AuthService {
   login(email: string, password: string) {
     return this.http.post<AuthResponse>(`${this.authUrl}/login`, { email, password }).pipe(
       tap(response => this.storeToken(response.token))
+    );
+  }
+
+  getSessions(): Observable<{ sessions: AuthSession[] }> {
+    return this.http.get<{ sessions: AuthSession[] }>(`${this.authUrl}/sessions`);
+  }
+
+  logoutSession(): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>(`${this.authUrl}/logout`, {}).pipe(
+      finalize(() => this.logout())
     );
   }
 

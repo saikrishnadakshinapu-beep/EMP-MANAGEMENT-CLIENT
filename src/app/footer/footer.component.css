@@ -1,1 +1,16 @@
-.footer { display: flex; min-height: 3rem; align-items: center; justify-content: space-between; padding: 0 1.5rem; border-top: 1px solid #e9eaf2; color: #898a9b; background: #fff; font-size: .75rem; }
+:host {
+    display: block;
+    width: 100%;
+}
+
+.footer {
+    display: flex;
+    min-height: 3rem;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1.5rem;
+    border-top: 1px solid #e9eaf2;
+    color: #0b0b0b;
+    background: #d7d7d73d;
+    font-size: .75rem;
+}

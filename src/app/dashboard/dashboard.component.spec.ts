@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { of } from 'rxjs';
 import { DashboardComponent } from './dashboard.component';
+import { AuthService } from '../services/auth.service';
 
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
@@ -8,7 +9,11 @@ describe('DashboardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DashboardComponent ]
+      declarations: [ DashboardComponent ],
+      providers: [{
+        provide: AuthService,
+        useValue: { getSessions: () => of({ sessions: [] }) }
+      }]
     })
     .compileComponents();
 

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
 import { AuthService } from '../services/auth.service';
 
 @Component({
@@ -10,11 +11,21 @@ import { AuthService } from '../services/auth.service';
 export class HeaderComponent {
   constructor(
     private readonly authService: AuthService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly messageService: MessageService
   ) {}
 
   logout(): void {
-    this.authService.logout();
-    void this.router.navigate(['/login']);
+    this.authService.logoutSession().subscribe({
+      next: () => void this.router.navigate(['/login']),
+      error: () => {
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'Logged out locally',
+          detail: 'The server could not invalidate this session.'
+        });
+        void this.router.navigate(['/login']);
+      }
+    });
   }
 }

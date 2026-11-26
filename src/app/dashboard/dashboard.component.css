@@ -1,10 +1,53 @@
-.card-body{
+.card-body {
     margin: 1rem;
     border: 1px solid #d1e5fe;
     color: #696969;
     background-color: #f2f7fd;
     padding: 1rem;
     border-radius: 8px;
-    border-bottom:6px solid #017ce1;;
-    box-shadow: 0 8px 24px #cfdce8; 
+    border-bottom: 6px solid #017ce1;
+    box-shadow: 0 8px 24px #cfdce8;
+}
+
+.sessions-panel {
+    margin: 1rem;
+    padding: 1.25rem;
+    border: 1px solid #d1e5fe;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 8px 24px #cfdce8;
+    height: 100%;
+    overflow: auto;
+}
+
+.sessions-panel h2 {
+    margin: 0 0 1rem;
+    color: #1f4e88;
+}
+
+.sessions-table-container {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    color: #696969;
+    text-align: left;
+}
+
+th,
+td {
+    padding: .75rem;
+    border-bottom: 1px solid #e9eaf2;
+    vertical-align: top;
+}
+
+th {
+    color: #1f4e88;
+    font-weight: 600;
+}
+
+.error-message {
+    color: #b42318;
 }

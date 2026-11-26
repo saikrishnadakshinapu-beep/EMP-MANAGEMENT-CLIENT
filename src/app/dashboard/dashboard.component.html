@@ -1,26 +1,58 @@
+<div class="block h-full overflow-y-auto"> 
+
+
 <div class="grid flex-1 mt-3">
-    <div class="card col-12 md:col-3">
-        <div class="card-body">
-            <h2 class="text-green-500">Present</h2>
-             Count: 10
-        </div>
+  <div class="card col-12 md:col-3">
+    <div class="card-body">
+      <h2 class="text-green-500">Present</h2>
+      Count: 10
     </div>
-    <div class="card col-12 md:col-3">
-        <div class="card-body ">
-             <h2 class="text-red-500">Absent</h2>
-           Count:  2
-        </div>
+  </div>
+  <div class="card col-12 md:col-3">
+    <div class="card-body">
+      <h2 class="text-red-500">Absent</h2>
+      Count: 2
     </div>
-    <div class="card col-12 md:col-3">
-        <div class="card-body">
-            <h2 class="text-yellow-500">Leave</h2>
-            Count:  1
-        </div>
+  </div>
+  <div class="card col-12 md:col-3">
+    <div class="card-body">
+      <h2 class="text-yellow-500">Leave</h2>
+      Count: 1
     </div>
-    <div class="card col-12 md:col-3">
-        <div class="card-body">
-            <h2 class="text-blue-500">Half Day</h2>
-            Count: 6
-        </div>
+  </div>
+  <div class="card col-12 md:col-3">
+    <div class="card-body">
+      <h2 class="text-blue-500">Half Day</h2>
+      Count: 6
     </div>
+  </div>
+</div>
+
+<section class="sessions-panel" aria-labelledby="sessions-heading">
+  <h2 id="sessions-heading">Sessions</h2>
+
+
+  <div class="sessions-table-container" *ngIf="sessions.length > 0">
+    <table>
+      <thead>
+        <tr>
+          <th  style="min-width:100px; max-width: 1cqmin;" scope="col">IP Address</th>
+          <th  style="min-width:200px; max-width: 200px;" scope="col">Name</th>
+           <th  style="min-width:200px;" scope="col">Device</th>
+          <th  style="min-width:200px; max-width: 200px;" scope="col">Signed in</th>
+          <th  style="min-width:200px; max-width: 200px;" scope="col">Expires</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let session of sessions">
+          <td  style="min-width:100px; max-width: 100px;">{{ session.ipAddress || 'Unknown' }}</td>
+          <td  style="min-width:200px; max-width: 200px;">{{ session.userName || 'Unknown' }}</td>
+          <td  style="min-width:200px;">{{ session.userAgent || 'Unknown device' }}</td>
+          <td  style="min-width:200px; max-width: 200px;">{{ session.createdAt | date:'medium' }}</td>
+          <td style="min-width:200px; max-width: 200px;">{{ session.expiresAt | date:'medium' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
 </div>

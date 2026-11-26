@@ -1,4 +1,9 @@
 
+:host {
+    display: block;
+    width: 100%;
+}
+
 .topbar {
     display: flex;
     height: 60px;

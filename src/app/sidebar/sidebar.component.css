@@ -3,6 +3,7 @@
     box-sizing: border-box;
     width: 15rem;
     flex: 0 0 15rem;
+    height: 100%;
     align-self: stretch;
     border-right: 1px solid #e9eaf2;
     background: #fff;
@@ -12,6 +13,7 @@
     box-sizing: border-box;
     min-height: 100%;
     padding: 1.5rem 1rem;
+    
 }
 
 .heading {

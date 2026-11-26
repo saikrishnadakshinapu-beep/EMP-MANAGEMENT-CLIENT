@@ -138,11 +138,19 @@
                     </span>
                 </div>
 
-                <div class="form-field">
+                <!-- <div class="form-field">
                     <span class="p-float-label" [class.has-value]="employeeForm.controls.salary.value !== null">
                         <p-inputNumber inputId="employee-salary" formControlName="salary" [min]="0"
                             [minFractionDigits]="0" [maxFractionDigits]="2" styleClass="employee-control"
                             inputStyleClass="p-inputtext-sm employee-control-input"></p-inputNumber>
+                        <label for="employee-salary">Salary</label>
+                    </span>
+                </div> -->
+
+                <div class="form-field">
+                    <span class="p-float-label" [class.has-value]="employeeForm.controls.salary.value">
+                        <input id="employee-salary" type="text" pInputText
+                            class="p-inputtext-sm employee-control" formControlName="salary" />
                         <label for="employee-salary">Salary</label>
                     </span>
                 </div>
